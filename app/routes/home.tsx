@@ -1,17 +1,67 @@
+import React from "react";
+import * as v from "valibot";
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
+	return [
+		{ title: "DonateApp" },
+		{ name: "description", content: "Bienvenid@ a DonateApp!" },
+	];
 }
 
-export function loader({ context }: Route.LoaderArgs) {
-  return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
+const FoundationSchema = v.object({
+	id: v.number(),
+	name: v.string(),
+	description: v.string(),
+});
+
+const ProjectSchema = v.object({
+	id: v.number(),
+	foundationId: v.number(),
+	title: v.string(),
+	description: v.string(),
+});
+
+type FoundationType = v.InferOutput<typeof FoundationSchema>;
+
+type ProjectType = v.InferOutput<typeof ProjectSchema>;
+
+export async function loader({ request }: Route.LoaderArgs) {
+	const [foundations, projects] = await Promise.all([
+		fetch("http://localhost:5173/foundations")
+			.then((res) => {
+				return res.json();
+			})
+			.then((data) => {
+				return data.foundations.map((foundation: FoundationType) => {
+					return v.parse(FoundationSchema, foundation);
+				});
+			}),
+		fetch("http://localhost:5173/projects")
+			.then((res) => {
+				return res.json();
+			})
+			.then((data) => {
+				return data.projects.map((project: ProjectType) => {
+					return v.parse(ProjectSchema, project);
+				});
+			}),
+	]);
+	return { foundations, projects };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  return <Welcome message={loaderData.message} />;
+	const { foundations, projects } = loaderData;
+
+	return (
+		<>
+			{foundations.map((foundation: FoundationType) => {
+				return (
+					<React.Fragment key={foundation.id}>
+						<div className="foundation"> {foundation.name}</div>
+					</React.Fragment>
+				);
+			})}
+		</>
+	);
 }
