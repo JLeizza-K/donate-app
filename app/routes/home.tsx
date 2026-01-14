@@ -55,10 +55,13 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
 	return (
 		<>
+			<h1 className="main-title">Bienvenidos a DonateApp</h1>
 			{foundations.map((foundation: FoundationType) => {
 				return (
 					<React.Fragment key={foundation.id}>
-						<div className="foundation"> {foundation.name}</div>
+						<button type="button" className="foundation">
+							{foundation.name}
+						</button>
 					</React.Fragment>
 				);
 			})}
