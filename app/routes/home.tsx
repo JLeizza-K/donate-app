@@ -1,4 +1,5 @@
 import React from "react";
+import { Form } from "react-router";
 import * as v from "valibot";
 import type { Route } from "./+types/home";
 
@@ -24,45 +25,49 @@ const ProjectSchema = v.object({
 
 type FoundationType = v.InferOutput<typeof FoundationSchema>;
 
-type ProjectType = v.InferOutput<typeof ProjectSchema>;
+export async function action({ request }: Route.LoaderArgs) {
+	const formData = await request.formData();
+	const foundationId = formData.get("foundationId");
+	const url = new URL(request.url);
 
+	if (!foundationId) {
+		return { error: "foundationId does not exist" };
+	}
+
+	url.searchParams.set("foundation", JSON.stringify(foundationId));
+}
 export async function loader({ request }: Route.LoaderArgs) {
-	const [foundations, projects] = await Promise.all([
-		fetch("http://localhost:5173/foundations")
-			.then((res) => {
-				return res.json();
-			})
-			.then((data) => {
-				return data.foundations.map((foundation: FoundationType) => {
-					return v.parse(FoundationSchema, foundation);
-				});
-			}),
-		fetch("http://localhost:5173/projects")
-			.then((res) => {
-				return res.json();
-			})
-			.then((data) => {
-				return data.projects.map((project: ProjectType) => {
-					return v.parse(ProjectSchema, project);
-				});
-			}),
-	]);
-	return { foundations, projects };
+	const url = new URL(request.url);
+	const foundationsResponse = await fetch(`${url.origin}/foundations`);
+
+	if (!foundationsResponse) {
+		throw new Error("Didn't connect to the route organizations");
+	}
+
+	const data = await foundationsResponse.json();
+	const foundations = v.parse(v.array(FoundationSchema), data.foundations);
+
+	return { foundations };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-	const { foundations, projects } = loaderData;
+	const { foundations } = loaderData;
 
 	return (
 		<>
 			<h1 className="main-title">Bienvenidos a DonateApp</h1>
 			{foundations.map((foundation: FoundationType) => {
 				return (
-					<React.Fragment key={foundation.id}>
-						<button type="button" className="foundation">
+					<Form key={foundation.id}>
+						<input
+							type="hidden"
+							name="foundationId"
+							value={foundation.id}
+						></input>
+						<button type="submit" className="foundation">
 							{foundation.name}
 						</button>
-					</React.Fragment>
+					</Form>
 				);
 			})}
 		</>
