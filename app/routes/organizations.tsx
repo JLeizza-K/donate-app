@@ -1,7 +1,7 @@
-import type { Route } from "./+types/foundations";
+import type { Route } from "./+types/organizations";
 
 export async function loader({ request }: Route.LoaderArgs) {
-	const FOUNDATIONS = [
+	const ORGANIZATIONS = [
 		{
 			id: 1,
 			name: "Fundación Raíces",
@@ -57,5 +57,5 @@ export async function loader({ request }: Route.LoaderArgs) {
 		},
 	];
 
-	return { foundations: FOUNDATIONS };
+	return { organizations: ORGANIZATIONS };
 }

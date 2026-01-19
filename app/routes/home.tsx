@@ -1,5 +1,4 @@
-import React from "react";
-import { Form } from "react-router";
+import { Link } from "react-router";
 import * as v from "valibot";
 import type { Route } from "./+types/home";
 
@@ -10,66 +9,58 @@ export function meta({}: Route.MetaArgs) {
 	];
 }
 
-const FoundationSchema = v.object({
+const OrganizationsSchema = v.object({
 	id: v.number(),
 	name: v.string(),
 	description: v.string(),
 });
-
-const ProjectSchema = v.object({
-	id: v.number(),
-	foundationId: v.number(),
-	title: v.string(),
-	description: v.string(),
+const OrganizationsResponseSchema = v.object({
+	organizations: v.array(OrganizationsSchema),
 });
 
-type FoundationType = v.InferOutput<typeof FoundationSchema>;
+type OrganizationType = v.InferOutput<typeof OrganizationsSchema>;
 
-export async function action({ request }: Route.LoaderArgs) {
-	const formData = await request.formData();
-	const foundationId = formData.get("foundationId");
-	const url = new URL(request.url);
-
-	if (!foundationId) {
-		return { error: "foundationId does not exist" };
-	}
-
-	url.searchParams.set("foundation", JSON.stringify(foundationId));
-}
 export async function loader({ request }: Route.LoaderArgs) {
 	const url = new URL(request.url);
-	const foundationsResponse = await fetch(`${url.origin}/foundations`);
+	const organizationsResponse = await fetch(`${url.origin}/organizations`);
 
-	if (!foundationsResponse) {
+	if (!organizationsResponse) {
 		throw new Error("Didn't connect to the route organizations");
 	}
 
-	const data = await foundationsResponse.json();
-	const foundations = v.parse(v.array(FoundationSchema), data.foundations);
+	const data = v.parse(
+		OrganizationsResponseSchema,
+		await organizationsResponse.json(),
+	);
 
-	return { foundations };
+	const organizations = v.parse(
+		v.array(OrganizationsSchema),
+		data.organizations,
+	);
+
+	return { organizations };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-	const { foundations } = loaderData;
+	const { organizations } = loaderData;
 
 	return (
 		<>
 			<h1 className="main-title">Bienvenidos a DonateApp</h1>
-			{foundations.map((foundation: FoundationType) => {
-				return (
-					<Form key={foundation.id}>
-						<input
-							type="hidden"
-							name="foundationId"
-							value={foundation.id}
-						></input>
-						<button type="submit" className="foundation">
-							{foundation.name}
-						</button>
-					</Form>
-				);
-			})}
+			<ul>
+				{organizations.map((organization: OrganizationType) => {
+					return (
+						<li key={organization.id} className="organization">
+							<Link
+								key={organization.id}
+								to={`/organization/${organization.id}`}
+							>
+								{organization.name}
+							</Link>
+						</li>
+					);
+				})}
+			</ul>
 		</>
 	);
 }
