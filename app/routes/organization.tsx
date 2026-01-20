@@ -40,21 +40,25 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 		return String(organization.id) === String(organizationId);
 	});
 
-	console.log(
-		"organizationId from params:",
-		organizationId,
-		typeof organizationId,
-	);
+	const projectsByOrganization = projects.filter((project: ProjectType) => {
+		return String(project.organizationId) === String(organizationId);
+	});
 
-	return { organization };
+	return { organization, projectsByOrganization };
 }
 
 export default function Organization({ loaderData }: Route.ComponentProps) {
-	const organization = loaderData.organization;
+	const { organization, projectsByOrganization } = loaderData;
 	return (
 		<div>
-			<p>{organization?.description}</p>
+			<img src={organization?.imageUrl} alt={`{organization.name}'s logo`} />
 			<p>{organization?.name}</p>
+			<p>{organization?.description}</p>
+			<ul>
+				{projectsByOrganization.map((project) => {
+					return <li key={project.id}>{project.title}</li>;
+				})}
+			</ul>
 		</div>
 	);
 }
