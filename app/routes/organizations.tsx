@@ -4,56 +4,83 @@ export async function loader({ request }: Route.LoaderArgs) {
 	const ORGANIZATIONS = [
 		{
 			id: 1,
-			name: "Fundación Raíces",
-			description: "Promotes community development and social inclusion.",
+			name: "Greenpeace",
+			description:
+				"Independent global campaigning network that uses peaceful protest to expose global environmental problems.",
+			imageUrl:
+				"https://victoryeste.com/wp-content/uploads/2021/03/greenpeace-1.jpg",
 		},
 		{
 			id: 2,
-			name: "Fundación Horizonte",
-			description: "Supports educational projects and job training programs.",
+			name: "Doctors Without Borders",
+			description:
+				"Provides medical assistance to people affected by conflict, epidemics, disasters, or exclusion from healthcare.",
+			imageUrl:
+				"https://www.msf.org.ar/wp-content/uploads/sites/3/2024/01/foto-logo-saradlr-2.png",
 		},
 		{
 			id: 3,
-			name: "Fundación Vida Verde",
+			name: "World Wildlife Fund (WWF)",
 			description:
-				"Works for environmental conservation and sustainable development.",
+				"The leading organization in wildlife conservation and endangered species protection.",
+			imageUrl:
+				"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmsBTL5aiW_sR_QgI9KVSOVVJ8uK8I6ncZ4w&s",
 		},
 		{
 			id: 4,
-			name: "Fundación Futuro Digital",
-			description: "Encourages access to technology and digital literacy.",
+			name: "Save the Children",
+			description:
+				"Global organization dedicated to improving the lives of children through better education, health care, and economic opportunities.",
+			imageUrl:
+				"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgGqv0b2j-rvktWupTw_iOLoKNNXktFlPaLQ&s",
 		},
 		{
 			id: 5,
-			name: "Fundación Manos Unidas",
+			name: "Unicef",
 			description:
-				"Provides social and food support to vulnerable communities.",
+				"Works in over 190 countries and territories to save children's lives, to defend their rights, and to help them fulfill their potential.",
+			imageUrl:
+				"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFkkRztaQtoEB5aTpimSEPa9t3KMD4Mjab5Q&s",
 		},
 		{
 			id: 6,
-			name: "Fundación Salud para Todos",
-			description: "Promotes prevention and access to healthcare.",
+			name: "Amnesty International",
+			description:
+				"A global movement of more than 10 million people who take injustice personally.",
+			imageUrl:
+				"https://www.escr-net.org/es/wp-content/uploads/sites/2/2015/06/niwj1nyd.jpeg",
 		},
 		{
 			id: 7,
-			name: "Fundación Arte Vivo",
-			description: "Supports community-based cultural and artistic projects.",
+			name: "Red Cross",
+			description:
+				"Providing emergency assistance, disaster relief, and health education worldwide.",
+			imageUrl:
+				"https://elordenmundial.com/wp-content/uploads/2022/05/Que-es-la-Cruz-Roja-y-como-brinda-ayuda-humanitaria-en-el-mundo.png",
 		},
 		{
 			id: 8,
-			name: "Fundación Puentes",
+			name: "Habitat for Humanity",
 			description:
-				"Facilitates social and educational integration of young people.",
+				"Helps families build and improve places to call home through affordable housing solutions.",
+			imageUrl:
+				"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6fhG7cq_Z7xydHmJCgnEwwLSOT4fqsR16hQ&s",
 		},
 		{
 			id: 9,
-			name: "Fundación Agua Clara",
-			description: "Works to ensure access to clean water and sanitation.",
+			name: "Make-A-Wish Foundation",
+			description:
+				"Creates life-changing wishes for children with critical illnesses.",
+			imageUrl:
+				"https://worldwish.org/wp-content/uploads/2025/03/Social-image-1.jpg",
 		},
 		{
 			id: 10,
-			name: "Fundación Camino",
-			description: "Supports social and job reintegration processes.",
+			name: "Bill & Melinda Gates Foundation",
+			description:
+				"Works to help all people lead healthy, productive lives by fighting poverty, disease, and inequity.",
+			imageUrl:
+				"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0s9Rf2oXqeP4WLB_9I3iFb7EYIw6RZXtzXw&s",
 		},
 	];
 

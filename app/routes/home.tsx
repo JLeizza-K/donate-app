@@ -9,16 +9,17 @@ export function meta({}: Route.MetaArgs) {
 	];
 }
 
-const OrganizationsSchema = v.object({
+export const OrganizationSchema = v.object({
 	id: v.number(),
 	name: v.string(),
 	description: v.string(),
 });
-const OrganizationsResponseSchema = v.object({
-	organizations: v.array(OrganizationsSchema),
+
+export const OrganizationsResponseSchema = v.object({
+	organizations: v.array(OrganizationSchema),
 });
 
-type OrganizationType = v.InferOutput<typeof OrganizationsSchema>;
+export type OrganizationType = v.InferOutput<typeof OrganizationSchema>;
 
 export async function loader({ request }: Route.LoaderArgs) {
 	const url = new URL(request.url);
@@ -34,7 +35,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 	);
 
 	const organizations = v.parse(
-		v.array(OrganizationsSchema),
+		v.array(OrganizationSchema),
 		data.organizations,
 	);
 
