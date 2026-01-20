@@ -56,7 +56,14 @@ export default function Organization({ loaderData }: Route.ComponentProps) {
 			<p>{organization?.description}</p>
 			<ul>
 				{projectsByOrganization.map((project) => {
-					return <li key={project.id}>{project.title}</li>;
+					return (
+						<Link
+							key={project.id}
+							to={`/organization/${organization.id}/project/${project.id}`}
+						>
+							{project.title}
+						</Link>
+					);
 				})}
 			</ul>
 		</div>
