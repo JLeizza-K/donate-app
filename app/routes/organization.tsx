@@ -29,7 +29,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 		v.array(OrganizationSchema),
 		"organizations",
 	);
-	const projects = await fetchData(
+const projects = await fetchData(
 		`${url.origin}/projects`,
 		ProjectResponseSchema,
 		v.array(ProjectSchema),
@@ -70,7 +70,7 @@ export default function Organization({ loaderData }: Route.ComponentProps) {
 	);
 }
 
-async function fetchData<TResponse, TData>(
+export async function fetchData<TResponse, TData>(
 	url: string,
 	responseSchema: v.BaseSchema<unknown, TResponse, v.BaseIssue<unknown>>,
 	schema: v.BaseSchema<unknown, TData, v.BaseIssue<unknown>>,

@@ -1,11 +1,12 @@
 import { Link } from "react-router";
 import * as v from "valibot";
 import type { Route } from "./+types/home";
+import { fetchData } from "./organization";
 
 export function meta({}: Route.MetaArgs) {
 	return [
 		{ title: "DonateApp" },
-		{ name: "description", content: "Bienvenid@ a DonateApp!" },
+		{ name: "description", content: "Welcome to DonateApp!" },
 	];
 }
 
@@ -24,20 +25,11 @@ export type OrganizationType = v.InferOutput<typeof OrganizationSchema>;
 
 export async function loader({ request }: Route.LoaderArgs) {
 	const url = new URL(request.url);
-	const organizationsResponse = await fetch(`${url.origin}/organizations`);
-
-	if (!organizationsResponse) {
-		throw new Error("Didn't connect to the route organizations");
-	}
-
-	const data = v.parse(
+	const organizations = await fetchData(
+		`${url.origin}/organizations`,
 		OrganizationsResponseSchema,
-		await organizationsResponse.json(),
-	);
-
-	const organizations = v.parse(
 		v.array(OrganizationSchema),
-		data.organizations,
+		"organizations",
 	);
 
 	return { organizations };
