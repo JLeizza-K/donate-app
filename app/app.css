@@ -16,3 +16,18 @@ color: #DAAD44
   display:block;
   width: 100%;
 }
+
+.organization-logo{
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  border-style:solid;
+  border-color: black;
+  border-width: 1px;
+}
+
+.project{
+  display: block;
+  align-items: center;
+}

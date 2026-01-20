@@ -29,6 +29,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 		v.array(OrganizationSchema),
 		"organizations",
 	);
+
 	const projects = await fetchData(
 		`${url.origin}/projects`,
 		ProjectResponseSchema,
@@ -51,18 +52,23 @@ export default function Organization({ loaderData }: Route.ComponentProps) {
 	const { organization, projectsByOrganization } = loaderData;
 	return (
 		<div>
-			<img src={organization?.imageUrl} alt={`{organization.name}'s logo`} />
+			<img
+				className="organization-logo"
+				src={organization?.imageUrl}
+				alt={`{organization.name}'s logo`}
+			/>
 			<p>{organization?.name}</p>
 			<p>{organization?.description}</p>
 			<ul>
 				{projectsByOrganization.map((project) => {
 					return (
-						<Link
-							key={project.id}
-							to={`/organization/${organization.id}/project/${project.id}`}
-						>
-							{project.title}
-						</Link>
+						<li className="project" key={project.id}>
+							<Link
+								to={`/organization/${organization.id}/project/${project.id}`}	
+							>
+								{project.title}
+							</Link>
+						</li>
 					);
 				})}
 			</ul>
@@ -77,6 +83,7 @@ async function fetchData<TResponse, TData>(
 	key: keyof TResponse,
 ): Promise<TData> {
 	const response = await fetch(url);
+
 	if (!response) {
 		throw new Error("Didn't connect to the route");
 	}

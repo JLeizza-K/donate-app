@@ -13,6 +13,7 @@ export default function OrganizationProject({
 		<div>
 			<h1>Project {loaderData.projectId}</h1>
 			<p>Organization: {loaderData.organizationId}</p>
+			
 		</div>
 	);
 }
