@@ -52,7 +52,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 			<ul>
 				{organizations.map((organization: OrganizationType) => {
 					return (
-						<li key={organization.id} className="organization">
+						<li key={organization.id} className="organization-home-button">
 							<Link
 								key={organization.id}
 								to={`/organization/${organization.id}`}

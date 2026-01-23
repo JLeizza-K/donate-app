@@ -7,9 +7,9 @@ import {
 	type OrganizationType,
 } from "./home";
 
-type ProjectType = v.InferOutput<typeof ProjectSchema>;
+export type ProjectType = v.InferOutput<typeof ProjectSchema>;
 
-const ProjectSchema = v.object({
+export const ProjectSchema = v.object({
 	id: v.number(),
 	organizationId: v.number(),
 	title: v.string(),
@@ -51,20 +51,22 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 export default function Organization({ loaderData }: Route.ComponentProps) {
 	const { organization, projectsByOrganization } = loaderData;
 	return (
-		<div>
-			<img
-				className="organization-logo"
-				src={organization?.imageUrl}
-				alt={`{organization.name}'s logo`}
-			/>
-			<p>{organization?.name}</p>
-			<p>{organization?.description}</p>
+		<div className="container">
+			<div className="header">
+				<img
+					className="organization-logo"
+					src={organization?.imageUrl}
+					alt={`{organization.name}'s logo`}
+				/>
+				<p className="organization-name">{organization?.name}</p>
+			</div>
+			<p className="organization-description">{organization?.description}</p>
 			<ul>
 				{projectsByOrganization.map((project) => {
 					return (
-						<li className="project" key={project.id}>
+						<li className="project-button" key={project.id}>
 							<Link
-								to={`/organization/${organization.id}/project/${project.id}`}	
+								to={`/organization/${organization.id}/project/${project.id}`}
 							>
 								{project.title}
 							</Link>
@@ -76,7 +78,7 @@ export default function Organization({ loaderData }: Route.ComponentProps) {
 	);
 }
 
-async function fetchData<TResponse, TData>(
+export async function fetchData<TResponse, TData>(
 	url: string,
 	responseSchema: v.BaseSchema<unknown, TResponse, v.BaseIssue<unknown>>,
 	schema: v.BaseSchema<unknown, TData, v.BaseIssue<unknown>>,
