@@ -1,67 +1,60 @@
-import React from "react";
+import { Link } from "react-router";
 import * as v from "valibot";
 import type { Route } from "./+types/home";
+import { fetchData } from "./organization";
 
 export function meta({}: Route.MetaArgs) {
 	return [
 		{ title: "DonateApp" },
-		{ name: "description", content: "Bienvenid@ a DonateApp!" },
+		{ name: "description", content: "Welcome to DonateApp!" },
 	];
 }
 
-const FoundationSchema = v.object({
+export const OrganizationSchema = v.object({
 	id: v.number(),
 	name: v.string(),
 	description: v.string(),
+	imageUrl: v.string(),
 });
 
-const ProjectSchema = v.object({
-	id: v.number(),
-	foundationId: v.number(),
-	title: v.string(),
-	description: v.string(),
+export const OrganizationsResponseSchema = v.object({
+	organizations: v.array(OrganizationSchema),
 });
 
-type FoundationType = v.InferOutput<typeof FoundationSchema>;
-
-type ProjectType = v.InferOutput<typeof ProjectSchema>;
+export type OrganizationType = v.InferOutput<typeof OrganizationSchema>;
 
 export async function loader({ request }: Route.LoaderArgs) {
-	const [foundations, projects] = await Promise.all([
-		fetch("http://localhost:5173/foundations")
-			.then((res) => {
-				return res.json();
-			})
-			.then((data) => {
-				return data.foundations.map((foundation: FoundationType) => {
-					return v.parse(FoundationSchema, foundation);
-				});
-			}),
-		fetch("http://localhost:5173/projects")
-			.then((res) => {
-				return res.json();
-			})
-			.then((data) => {
-				return data.projects.map((project: ProjectType) => {
-					return v.parse(ProjectSchema, project);
-				});
-			}),
-	]);
-	return { foundations, projects };
+	const url = new URL(request.url);
+	const organizations = await fetchData(
+		`${url.origin}/organizations`,
+		OrganizationsResponseSchema,
+		v.array(OrganizationSchema),
+		"organizations",
+	);
+
+	return { organizations };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-	const { foundations, projects } = loaderData;
+	const { organizations } = loaderData;
 
 	return (
 		<>
-			{foundations.map((foundation: FoundationType) => {
-				return (
-					<React.Fragment key={foundation.id}>
-						<div className="foundation"> {foundation.name}</div>
-					</React.Fragment>
-				);
-			})}
+			<h1 className="main-title">Bienvenidos a DonateApp</h1>
+			<ul>
+				{organizations.map((organization: OrganizationType) => {
+					return (
+						<li key={organization.id} className="organization">
+							<Link
+								key={organization.id}
+								to={`/organization/${organization.id}`}
+							>
+								{organization.name}
+							</Link>
+						</li>
+					);
+				})}
+			</ul>
 		</>
 	);
 }

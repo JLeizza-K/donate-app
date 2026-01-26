@@ -1,149 +1,156 @@
-import type { Route } from "./+types/foundations";
+import type { Route } from "./+types/projects";
 
 export async function loader({ request }: Route.LoaderArgs) {
 	const PROJECTS = [
 		{
 			id: 101,
-			foundationId: 1,
-			title: "Huertas Comunitarias",
+			organizationId: 1,
+			title: "Protect the Oceans",
 			description:
-				"Creación de huertas urbanas para mejorar la alimentación local.",
+				"Campaigning for a global network of marine sanctuaries to protect biodiversity.",
 		},
 		{
 			id: 102,
-			foundationId: 1,
-			title: "Talleres de Oficios",
-			description: "Capacitación en oficios para vecinos del barrio.",
+			organizationId: 1,
+			title: "Renewable Energy Revolution",
+			description:
+				"Promoting the transition from fossil fuels to 100% renewable energy sources.",
 		},
 
 		{
 			id: 103,
-			foundationId: 2,
-			title: "Becas de Estudio",
-			description: "Otorgamiento de becas para jóvenes de bajos recursos.",
+			organizationId: 2,
+			title: "Emergency Medical Response",
+			description:
+				"Rapid deployment of medical teams to conflict zones and natural disaster areas.",
 		},
 		{
 			id: 104,
-			foundationId: 2,
-			title: "Centro de Capacitación",
-			description: "Espacio para formación en habilidades laborales.",
+			organizationId: 2,
+			title: "Vaccination Campaigns",
+			description:
+				"Mass immunization programs to prevent outbreaks of measles, cholera, and meningitis.",
 		},
+
 		{
 			id: 105,
-			foundationId: 2,
-			title: "Mentorías Profesionales",
-			description: "Acompañamiento de estudiantes por profesionales.",
+			organizationId: 3,
+			title: "Save the Tigers",
+			description:
+				"Working across landscapes to double the number of wild tigers worldwide.",
 		},
-
 		{
 			id: 106,
-			foundationId: 3,
-			title: "Reforestación Urbana",
-			description: "Plantación de árboles en zonas urbanas.",
+			organizationId: 3,
+			title: "Climate Action Policy",
+			description:
+				"Advocating for global policies to limit global warming to 1.5°C.",
 		},
+
 		{
 			id: 107,
-			foundationId: 3,
-			title: "Educación Ambiental",
-			description: "Charlas y talleres sobre cuidado del ambiente.",
+			organizationId: 4,
+			title: "Every Child Reads",
+			description:
+				"Literacy programs to ensure children gain basic reading skills in early grades.",
 		},
-
 		{
 			id: 108,
-			foundationId: 4,
-			title: "Aulas Digitales",
-			description: "Equipamiento tecnológico para escuelas.",
-		},
-		{
-			id: 109,
-			foundationId: 4,
-			title: "Programar es Futuro",
-			description: "Cursos introductorios de programación.",
+			organizationId: 4,
+			title: "Child Protection Systems",
+			description:
+				"Creating safe environments to protect children from violence and exploitation.",
 		},
 
 		{
-			id: 110,
-			foundationId: 5,
-			title: "Comedores Solidarios",
-			description: "Apoyo a comedores comunitarios.",
+			id: 109,
+			organizationId: 5,
+			title: "WASH (Water & Sanitation)",
+			description:
+				"Providing clean water and basic toilets to keep children healthy and in school.",
 		},
 		{
+			id: 110,
+			organizationId: 5,
+			title: "Global Nutrition Program",
+			description:
+				"Treating severe acute malnutrition and promoting healthy growth for infants.",
+		},
+
+		{
 			id: 111,
-			foundationId: 5,
-			title: "Red de Voluntarios",
-			description: "Organización de voluntariado social.",
+			organizationId: 6,
+			title: "Write for Rights",
+			description:
+				"The world's biggest letter-writing campaign to free prisoners of conscience.",
 		},
 		{
 			id: 112,
-			foundationId: 5,
-			title: "Donación de Ropa",
-			description: "Recolección y distribución de ropa.",
+			organizationId: 6,
+			title: "Human Rights Education",
+			description:
+				"Training youth leaders to defend human rights in their own communities.",
 		},
 
 		{
 			id: 113,
-			foundationId: 6,
-			title: "Clínicas Móviles",
-			description: "Atención médica en zonas alejadas.",
+			organizationId: 7,
+			title: "Blood Donation Drives",
+			description:
+				"Organizing community events to maintain critical blood supplies for hospitals.",
 		},
 		{
 			id: 114,
-			foundationId: 6,
-			title: "Campañas de Vacunación",
-			description: "Promoción de la vacunación preventiva.",
+			organizationId: 7,
+			title: "First Aid Training",
+			description:
+				"Empowering citizens with life-saving skills through certified workshops.",
 		},
 
 		{
 			id: 115,
-			foundationId: 7,
-			title: "Escuela de Arte",
-			description: "Talleres de pintura, música y teatro.",
+			organizationId: 8,
+			title: "Home Build Challenge",
+			description:
+				"Volunteers helping families build their own homes from the ground up.",
 		},
 		{
 			id: 116,
-			foundationId: 7,
-			title: "Festivales Barriales",
-			description: "Eventos culturales en barrios.",
+			organizationId: 8,
+			title: "Urban Slum Upgrading",
+			description:
+				"Improving infrastructure and safety in overcrowded informal settlements.",
 		},
 
 		{
 			id: 117,
-			foundationId: 8,
-			title: "Tutorías Escolares",
-			description: "Apoyo educativo para estudiantes.",
+			organizationId: 9,
+			title: "The Wish Journey",
+			description:
+				"Coordinating unique experiences for children facing life-threatening illnesses.",
 		},
 		{
 			id: 118,
-			foundationId: 8,
-			title: "Puente al Trabajo",
-			description: "Orientación laboral para jóvenes.",
+			organizationId: 9,
+			title: "Wish Granting Volunteers",
+			description:
+				"Training community members to help identify and fulfill child wishes.",
 		},
 
 		{
 			id: 119,
-			foundationId: 9,
-			title: "Pozos de Agua",
-			description: "Construcción de pozos en comunidades rurales.",
+			organizationId: 10,
+			title: "Polio Eradication",
+			description:
+				"Final push to eliminate polio worldwide through surveillance and vaccination.",
 		},
 		{
 			id: 120,
-			foundationId: 9,
-			title: "Filtros Familiares",
-			description: "Entrega de filtros de agua potable.",
-		},
-
-		{
-			id: 121,
-			foundationId: 10,
-			title: "Capacitación Laboral",
-			description: "Cursos para reinserción laboral.",
-		},
-		{
-			id: 122,
-			foundationId: 10,
-			title: "Acompañamiento Social",
-			description: "Seguimiento y apoyo personalizado.",
+			organizationId: 10,
+			title: "Agricultural Development",
+			description:
+				"Supporting smallholder farmers with tools to increase crop yields and income.",
 		},
 	];
-    return {projects: PROJECTS}
+	return { projects: PROJECTS };
 }
