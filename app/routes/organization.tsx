@@ -29,8 +29,7 @@ export async function loader({ request, params }: Route.LoaderArgs) {
 		v.array(OrganizationSchema),
 		"organizations",
 	);
-
-	const projects = await fetchData(
+const projects = await fetchData(
 		`${url.origin}/projects`,
 		ProjectResponseSchema,
 		v.array(ProjectSchema),
