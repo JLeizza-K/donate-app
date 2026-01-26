@@ -1,7 +1,12 @@
 import { Link } from "react-router";
 import * as v from "valibot";
+import { fetchData } from "~/common/utils/fetchData";
+import {
+	OrganizationSchema,
+	OrganizationsResponseSchema,
+	type OrganizationType,
+} from "../common/schemas/organization.schema.type";
 import type { Route } from "./+types/home";
-import { fetchData } from "./organization";
 
 export function meta({}: Route.MetaArgs) {
 	return [
@@ -9,19 +14,6 @@ export function meta({}: Route.MetaArgs) {
 		{ name: "description", content: "Welcome to DonateApp!" },
 	];
 }
-
-export const OrganizationSchema = v.object({
-	id: v.number(),
-	name: v.string(),
-	description: v.string(),
-	imageUrl: v.string(),
-});
-
-export const OrganizationsResponseSchema = v.object({
-	organizations: v.array(OrganizationSchema),
-});
-
-export type OrganizationType = v.InferOutput<typeof OrganizationSchema>;
 
 export async function loader({ request }: Route.LoaderArgs) {
 	const url = new URL(request.url);

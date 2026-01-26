@@ -1,24 +1,17 @@
 import { Link } from "react-router";
 import * as v from "valibot";
-import type { Route } from "./+types/organization";
+import {
+	ProjectResponseSchema,
+	ProjectSchema,
+	type ProjectType,
+} from "~/common/schemas/project.schema.type";
+import { fetchData } from "~/common/utils/fetchData";
 import {
 	OrganizationSchema,
 	OrganizationsResponseSchema,
 	type OrganizationType,
-} from "./home";
-
-export type ProjectType = v.InferOutput<typeof ProjectSchema>;
-
-export const ProjectSchema = v.object({
-	id: v.number(),
-	organizationId: v.number(),
-	title: v.string(),
-	description: v.string(),
-});
-
-export const ProjectResponseSchema = v.object({
-	projects: v.array(ProjectSchema),
-});
+} from "../common/schemas/organization.schema.type";
+import type { Route } from "./+types/organization";
 
 export async function loader({ request, params }: Route.LoaderArgs) {
 	const organizationId = params.organizationId;
@@ -75,20 +68,4 @@ export default function Organization({ loaderData }: Route.ComponentProps) {
 			</ul>
 		</div>
 	);
-}
-
-export async function fetchData<TResponse, TData>(
-	url: string,
-	responseSchema: v.BaseSchema<unknown, TResponse, v.BaseIssue<unknown>>,
-	schema: v.BaseSchema<unknown, TData, v.BaseIssue<unknown>>,
-	key: keyof TResponse,
-): Promise<TData> {
-	const response = await fetch(url);
-
-	if (!response) {
-		throw new Error("Didn't connect to the route");
-	}
-	const data = v.parse(responseSchema, await response.json());
-	const validData = v.parse(schema, data[key]);
-	return validData;
 }
