@@ -1,21 +1,24 @@
-import {
-	fetchData,
-	ProjectResponseSchema,
-	ProjectSchema,
-	type ProjectType,
-} from "app/routes/organization";
+import { loadMercadoPago } from "@mercadopago/sdk-js";
 import * as v from "valibot";
-import type { Route } from "./+types/organization.project";
 import {
 	OrganizationSchema,
 	OrganizationsResponseSchema,
 	type OrganizationType,
-} from "./home";
+} from "~/common/schemas/organization.schema.type";
+import {
+	ProjectResponseSchema,
+	ProjectSchema,
+	type ProjectType,
+} from "~/common/schemas/project.schema.type";
+import { fetchData } from "~/common/utils/fetchData";
+import type { Route } from "./+types/organization.project";
+
 
 export async function loader({ params, request }: Route.LoaderArgs) {
 	const { organizationId, projectId } = params;
 	const url = new URL(request.url);
-
+	await loadMercadoPago()
+	
 	const organizations = await fetchData(
 		`${url.origin}/organizations`,
 		OrganizationsResponseSchema,
