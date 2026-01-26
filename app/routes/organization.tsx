@@ -7,9 +7,9 @@ import {
 	type OrganizationType,
 } from "./home";
 
-type ProjectType = v.InferOutput<typeof ProjectSchema>;
+export type ProjectType = v.InferOutput<typeof ProjectSchema>;
 
-const ProjectSchema = v.object({
+export const ProjectSchema = v.object({
 	id: v.number(),
 	organizationId: v.number(),
 	title: v.string(),
@@ -50,19 +50,26 @@ const projects = await fetchData(
 export default function Organization({ loaderData }: Route.ComponentProps) {
 	const { organization, projectsByOrganization } = loaderData;
 	return (
-		<div>
-			<img src={organization?.imageUrl} alt={`{organization.name}'s logo`} />
-			<p>{organization?.name}</p>
-			<p>{organization?.description}</p>
+		<div className="container">
+			<div className="header">
+				<img
+					className="organization-logo"
+					src={organization?.imageUrl}
+					alt={`{organization.name}'s logo`}
+				/>
+				<p className="organization-name">{organization?.name}</p>
+			</div>
+			<p className="organization-description">{organization?.description}</p>
 			<ul>
 				{projectsByOrganization.map((project) => {
 					return (
-						<Link
-							key={project.id}
-							to={`/organization/${organization.id}/project/${project.id}`}
-						>
-							{project.title}
-						</Link>
+						<li className="project-button" key={project.id}>
+							<Link
+								to={`/organization/${organization.id}/project/${project.id}`}
+							>
+								{project.title}
+							</Link>
+						</li>
 					);
 				})}
 			</ul>
@@ -77,6 +84,7 @@ export async function fetchData<TResponse, TData>(
 	key: keyof TResponse,
 ): Promise<TData> {
 	const response = await fetch(url);
+
 	if (!response) {
 		throw new Error("Didn't connect to the route");
 	}
